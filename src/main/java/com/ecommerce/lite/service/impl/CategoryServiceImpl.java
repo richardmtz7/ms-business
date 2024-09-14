@@ -1,5 +1,6 @@
 package com.ecommerce.lite.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,12 @@ public class CategoryServiceImpl implements CategoryService {
 		} catch (Exception e) {
 			throw new Exception("Error deleting category" + e);
 		}
+	}
+
+	@Override
+	public List<Categories> getAllCategories() {
+		
+		return iCategoryRepository.findAll();
 	}
 
 }

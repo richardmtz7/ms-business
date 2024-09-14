@@ -1,6 +1,8 @@
 package com.ecommerce.lite.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +19,17 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	@Transactional
-	public Orders createOrder(Orders order) throws Exception {
-		if (order == null || order.getOrderProducts() == null || order.getOrderProducts().isEmpty()) {
+	public String createOrder(Orders order) throws Exception {
+		if (order.getProductId() == null) {
             throw new Exception("Order or order products cannot be null or empty");
         }
 		
+		String ticketOrder = UUID.randomUUID().toString();
+		order.setTicket(ticketOrder);
+		
 		try {
 			iOrderRepository.save(order);
-			return order;
+			return ticketOrder;
 		} catch (Exception e) {
 			throw new Exception("Error creating order" + e);
 		}
@@ -52,8 +57,7 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			if (existingOrder.isPresent()) {
 	            Orders updatedOrder = existingOrder.get();
-	            updatedOrder.setOrderProducts(order.getOrderProducts());
-	            updatedOrder.setCustomer(order.getCustomer());
+	            updatedOrder.setProductId(order.getProductId());
 	            
 	            iOrderRepository.save(updatedOrder);
 	        } else {
@@ -63,6 +67,11 @@ public class OrderServiceImpl implements OrderService {
 			throw new Exception("Error updating order" + e);
 		}
         
+	}
+
+	@Override
+	public List<Orders> getAllOrders() {
+		return iOrderRepository.findAll();
 	}
 	
 	

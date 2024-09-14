@@ -1,5 +1,6 @@
 package com.ecommerce.lite.service.impl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -35,18 +36,17 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	@Transactional
-	public void deactivateOrActivateCompany(Integer companyId) throws Exception {
+	public void deleteCompany(Integer companyId) throws Exception {
 		try {
-			Company company = iCompanyRepository.findById(companyId)
-					.orElseThrow(() -> new NoSuchElementException("Company not found"));
-			if(company.getStatus() == 1) {
-				company.setStatus(0);
-			} else if(company.getStatus() == 0) {
-				company.setStatus(1);
+			Optional<Company> company = iCompanyRepository.findById(companyId);
+			
+			if(!company.isEmpty()) {
+				iCompanyRepository.deleteById(companyId);
+			} else {
+				throw new Exception("Company not found");
 			}
-			iCompanyRepository.save(company);
 		} catch (Exception e) {
-			throw new Exception("Error deactivating company" + e);
+			throw new Exception("Error deleting company" + e);
 		}
 	}
 
@@ -56,18 +56,12 @@ public class CompanyServiceImpl implements CompanyService {
 		Company companyExist = iCompanyRepository.findById(company.getNit())
 				.orElseThrow(() -> new NoSuchElementException("Company not found"));
 		
-		if(company.getCompanyName() != companyExist.getCompanyName() ) {
-			companyExist.setCompanyName(company.getCompanyName());
-		}
-		
-		if(company.getPhone() != companyExist.getPhone()) {
-			companyExist.setPhone(company.getPhone());
-		}
-		
-		// If the nit is different or not, it is still sent to the company found 
-		companyExist.setNit(company.getNit());
-		
-		iCompanyRepository.save(companyExist);
+		iCompanyRepository.save(company);
+	}
+
+	@Override
+	public List<Company> getAllCompanies() {
+		return iCompanyRepository.findAll();
 	}
 
 }

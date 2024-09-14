@@ -1,14 +1,11 @@
 package com.ecommerce.lite.entities;
 
-import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,11 +22,12 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer orderId;
 	
-	@OneToMany(mappedBy = "order")
-	private List<OrderProduct> orderProducts;
+	@Column(name = "ticket")
+	private String ticket;
 	
-	@ManyToOne
-	@JoinColumn(name = "customerId", referencedColumnName = "customerId")
-	private Customers customer;
+	@Column(name = "productId")
+	private Integer productId;
 	
+	@Column(name = "customerId")
+	private Integer customerId;
 }

@@ -1,5 +1,6 @@
 package com.ecommerce.lite.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	@Transactional
 	public Products createProduct(Products product) throws Exception {
-		if(product.getCharacteristics() == null || product.getCompany() == null 
-				|| product.getProductCategories() == null || product.getProductName() == null) {
+		if(product.getCharacteristics() == null || product.getProductName() == null) {
 			throw new Exception("Some especifications cannot be null or empty");
 		}
 
@@ -45,6 +45,11 @@ public class ProductServiceImpl implements ProductService{
 		} catch (Exception e) {
 			throw new Exception("Error deleting product" + e);
 		}
+	}
+
+	@Override
+	public List<Products> getProducts() {
+		return iProductRepository.findAll();
 	}
 
 }

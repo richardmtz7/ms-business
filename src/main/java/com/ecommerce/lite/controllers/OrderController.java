@@ -1,9 +1,12 @@
 package com.ecommerce.lite.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,16 +24,17 @@ public class OrderController {
 	private OrderService orderService;
 	
 	@PostMapping("/create")
-    public ResponseEntity<Orders> createOrder(@RequestBody Orders order) {
+    public ResponseEntity<String> createOrder(@RequestBody Orders order) {
         try {
-            Orders newOrder = orderService.createOrder(order);
-            return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
+            String newOrder = orderService.createOrder(order);
+            
+            return new ResponseEntity<>("Order ticket" + newOrder, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 	
-	@DeleteMapping("/{orderId}")
+	@DeleteMapping("/delete/{orderId}")
     public ResponseEntity<String> deleteOrderById(@PathVariable Integer orderId) {
         try {
             orderService.deleteOrderById(orderId);
@@ -49,4 +53,15 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+	
+	@GetMapping("/getAll")
+	public ResponseEntity<List<Orders>> getAllOrders(){
+		try {
+			List<Orders> orders = orderService.getAllOrders();
+            
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+	}
 }
