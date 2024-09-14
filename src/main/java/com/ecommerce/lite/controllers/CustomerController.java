@@ -14,7 +14,7 @@ import com.ecommerce.lite.entities.Customers;
 import com.ecommerce.lite.service.CustomerService;
 
 @RestController
-@RequestMapping("api/business/customer")
+@RequestMapping("/api/business/customer")
 public class CustomerController {
 	@Autowired
 	private CustomerService customerService;

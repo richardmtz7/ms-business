@@ -18,7 +18,7 @@ import com.ecommerce.lite.entities.Orders;
 import com.ecommerce.lite.service.OrderService;
 
 @RestController
-@RequestMapping("api/business/order")
+@RequestMapping("/api/business/order")
 public class OrderController {
 	@Autowired
 	private OrderService orderService;

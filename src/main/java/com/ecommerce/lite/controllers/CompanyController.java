@@ -18,7 +18,7 @@ import com.ecommerce.lite.service.CompanyService;
 
 
 @RestController
-@RequestMapping("api/business/company")
+@RequestMapping("/api/business/company")
 public class CompanyController {
 	@Autowired
 	private CompanyService companyService;

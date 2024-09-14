@@ -19,7 +19,7 @@ import com.ecommerce.lite.service.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
-@RequestMapping("api/business/category")
+@RequestMapping("/api/business/category")
 public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
