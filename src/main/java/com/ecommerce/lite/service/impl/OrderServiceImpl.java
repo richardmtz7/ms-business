@@ -20,10 +20,6 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public String createOrder(Orders order) throws Exception {
-		if (order.getProductId() == null) {
-            throw new Exception("Order or order products cannot be null or empty");
-        }
-		
 		String ticketOrder = UUID.randomUUID().toString();
 		order.setTicket(ticketOrder);
 		
