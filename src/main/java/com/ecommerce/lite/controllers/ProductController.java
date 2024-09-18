@@ -15,12 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.lite.entities.Products;
 import com.ecommerce.lite.service.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/api/business/product")
 public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	@Operation(summary = "Create a product")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Created product"),
+	        @ApiResponse(responseCode = "500", description = "Internal server error")
+	})
 	@PostMapping("/create")
     public ResponseEntity<Products> createProduct(@RequestBody Products product) {
         try {
@@ -32,6 +41,11 @@ public class ProductController {
         }
     }
 	
+	@Operation(summary = "Delete a product")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Deleted product"),
+	        @ApiResponse(responseCode = "500", description = "Internal server error")
+	})
 	@PostMapping("/delete/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable Integer productId) {
         try {
@@ -43,6 +57,11 @@ public class ProductController {
         }
     }
 	
+	@Operation(summary = "Get all product")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "List of products"),
+	        @ApiResponse(responseCode = "500", description = "Internal server error")
+	})
 	@GetMapping("/getAll")
 	public ResponseEntity<List<Products>> getAllProducts(){
 		try {

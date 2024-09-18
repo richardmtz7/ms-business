@@ -39,6 +39,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public void deleteCompany(Integer companyId) throws Exception {
 		try {
 			Optional<Company> company = iCompanyRepository.findById(companyId);
+			System.out.println(company);
 			
 			if(!company.isEmpty()) {
 				iCompanyRepository.deleteById(companyId);
@@ -53,7 +54,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	@Transactional
 	public void editCompany(Company company) throws Exception {
-		Company companyExist = iCompanyRepository.findById(company.getNit())
+		iCompanyRepository.findById(company.getNit())
 				.orElseThrow(() -> new NoSuchElementException("Company not found"));
 		
 		iCompanyRepository.save(company);

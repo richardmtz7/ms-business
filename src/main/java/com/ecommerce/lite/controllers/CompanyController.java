@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.lite.entities.Company;
 import com.ecommerce.lite.service.CompanyService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 
 @RestController
 @RequestMapping("/api/business/company")
@@ -23,6 +27,11 @@ public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
 	
+	@Operation(summary = "Create a company")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Category created"),
+	        @ApiResponse(responseCode = "500", description = "Internal server error")
+	})
 	@PostMapping("/create")
 	public ResponseEntity<Company> createCompany(@RequestBody Company company){
 		try {
@@ -34,9 +43,15 @@ public class CompanyController {
 		}
 	}
 	
+	@Operation(summary = "Delete a company")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Deleted company"),
+	        @ApiResponse(responseCode = "500", description = "Internal server error")
+	})
 	@PostMapping("/delete/{nit}")
 	 public ResponseEntity<String> deactivateOrActivateCompany(@PathVariable Integer nit) {
         try {
+        	System.out.println(nit);
             companyService.deleteCompany(nit);
             return ResponseEntity.ok("Company delete successfully.");
         } catch (Exception e) {
@@ -45,6 +60,11 @@ public class CompanyController {
         }
     }
 	
+	@Operation(summary = "Update a company")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Company updated"),
+	        @ApiResponse(responseCode = "500", description = "Internal server error")
+	})
 	@PutMapping("/edit")
     public ResponseEntity<String> editCompany(@RequestBody Company company) {
         try {
@@ -56,6 +76,11 @@ public class CompanyController {
         }
     }
 	
+	@Operation(summary = "Get all companies")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "List of companies"),
+	        @ApiResponse(responseCode = "500", description = "Internal server error")
+	})
 	@GetMapping("/getAll")
 	public ResponseEntity<List<Company>> getAllCompanies(){
 		try {
